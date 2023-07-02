@@ -1,10 +1,12 @@
 import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "api/todolists-api";
-import { AppRootStateType, AppThunk } from "app/store";
+import { AppDispatch, AppRootStateType, AppThunk } from "app/store";
 
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { appActions } from "app/app-reducer";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistsActions } from "features/TodolistsList/todolists-reducer";
+import { Dispatch } from "redux";
+import { createAppAsyncThunk } from "utils/create-app-async-thunk";
 
 const slice = createSlice({
   name: "tasks",
@@ -52,20 +54,23 @@ const slice = createSlice({
 
 // thunks
 
-const fetchTasks = createAsyncThunk("tasks/fetchTasksTC", async (todolistId: string, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
-    const res = await todolistsAPI.getTasks(todolistId);
-    const tasks = res.data.items;
+const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, string>(
+  "tasks/fetchTasksTC",
+  async (todolistId, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      dispatch(appActions.setAppStatus({ status: "loading" }));
+      const res = await todolistsAPI.getTasks(todolistId);
+      const tasks = res.data.items;
 
-    dispatch(appActions.setAppStatus({ status: "succeeded" }));
-    return { tasks, todolistId };
-  } catch (e: any) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      return { tasks, todolistId };
+    } catch (e: any) {
+      handleServerNetworkError(e, dispatch);
+      return rejectWithValue(null);
+    }
   }
-});
+);
 
 // export const fetchTasksTC =
 //   (todolistId: string): AppThunk =>
@@ -152,6 +157,17 @@ export type UpdateDomainTaskModelType = {
 };
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
+};
+
+type AsyncThunkConfig = {
+  state?: unknown;
+  dispatch?: Dispatch;
+  extra?: unknown;
+  rejectValue?: unknown;
+  serializedErrorType?: unknown;
+  pendingMeta?: unknown;
+  fulfilledMeta?: unknown;
+  rejectedMeta?: unknown;
 };
 
 export const taskActions = slice.actions;
