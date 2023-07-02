@@ -27,12 +27,15 @@ const slice = createSlice({
       let index = tasks.findIndex((t) => t.id === action.payload.taskId);
       if (index !== -1) tasks[index] = { ...tasks[index], ...action.payload.model };
     },
-    setTasks: (state, action: PayloadAction<{ todolistId: string; tasks: Array<TaskType> }>) => {
-      state[action.payload.todolistId] = action.payload.tasks;
-    },
+    // setTasks: (state, action: PayloadAction<{ todolistId: string; tasks: Array<TaskType> }>) => {
+    //   state[action.payload.todolistId] = action.payload.tasks;
+    // },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state[action.payload.todolistId] = action.payload.tasks;
+      })
       .addCase(todolistsActions.addTodolist, (state, action) => {
         state[action.payload.todo.id] = [];
       })
@@ -47,18 +50,21 @@ const slice = createSlice({
   },
 });
 
-export const taskActions = slice.actions;
-export const tasksReducer = slice.reducer;
 // thunks
 
-export const fetchTasksTC = createAsyncThunk("tasks/fetchTasksTC", (todolistId: string, thunkAPI) => {
-  const { dispatch } = thunkAPI;
-  dispatch(appActions.setAppStatus({ status: "loading" }));
-  todolistsAPI.getTasks(todolistId).then((res) => {
+const fetchTasks = createAsyncThunk("tasks/fetchTasksTC", async (todolistId: string, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
+    dispatch(appActions.setAppStatus({ status: "loading" }));
+    const res = await todolistsAPI.getTasks(todolistId);
     const tasks = res.data.items;
-    dispatch(taskActions.setTasks({ tasks, todolistId }));
+
     dispatch(appActions.setAppStatus({ status: "succeeded" }));
-  });
+    return { tasks, todolistId };
+  } catch (e: any) {
+    handleServerNetworkError(e, dispatch);
+    return rejectWithValue(null);
+  }
 });
 
 // export const fetchTasksTC =
@@ -147,3 +153,7 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
+
+export const taskActions = slice.actions;
+export const tasksReducer = slice.reducer;
+export const tasksThunks = { fetchTasks };
