@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { authAPI } from "common/api/todolists-api";
-import { authActions } from "features/Login/auth-reducer";
+import { authActions } from "features/Auth/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
