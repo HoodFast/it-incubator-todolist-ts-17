@@ -1,11 +1,3 @@
-import {
-  AddTaskArgType,
-  TaskPriorities,
-  TaskStatuses,
-  TaskType,
-  todolistsAPI,
-  UpdateTaskModelType,
-} from "common/api/todolists-api";
 import { AppThunk } from "app/store";
 
 import { handleServerNetworkError } from "common/utils/handle-server-network-error";
@@ -15,6 +7,8 @@ import { todolistsActions } from "features/TodolistsList/todolists-reducer";
 import { Dispatch } from "redux";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 import { handleServerAppError } from "common/utils/handle-server-app-error";
+import { AddTaskArgType, TaskType, todolistsAPI, UpdateTaskModelType } from "features/TodolistsList/todolists.api";
+import { TaskPriorities, TaskStatuses } from "common/enums";
 
 const slice = createSlice({
   name: "tasks",
