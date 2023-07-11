@@ -1,12 +1,10 @@
 import { Dispatch } from "redux";
 import { appActions, RequestStatusType } from "app/app-reducer";
-
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { handleServerNetworkError } from "common/utils";
-import { todolistsAPI, TodolistType } from "features/TodolistsList/todolists.api";
-
-const initialState: Array<TodolistDomainType> = [];
+import { createAppAsyncThunk, handleServerNetworkError } from "common/utils";
+import { todolistsAPI } from "features/TodolistsList/todolists.api";
+import { TodolistType } from "features/TodolistsList/todolists.types";
 
 const slice = createSlice({
   name: "todoLists",
@@ -38,13 +36,25 @@ const slice = createSlice({
   },
 });
 
-export const todolistsReducer = slice.reducer;
-export const todolistsActions = slice.actions;
-
-// actions
-
 // thunks
-export const fetchTodolistsTC = (): AppThunk => {
+
+export const fetchTodoLists = createAppAsyncThunk<{ todoLists: TodolistType[] }>(
+  "todoLists/fetch",
+  async (arg, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI;
+    dispatch(appActions.setAppStatus({ status: "loading" }));
+    try {
+      const res = await todolistsAPI.getTodolists();
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      return { todoLists: res.data };
+    } catch (e) {
+      handleServerNetworkError(e, dispatch);
+      return rejectWithValue(null);
+    }
+  }
+);
+
+const fetchTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }));
     todolistsAPI
@@ -95,3 +105,7 @@ export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
   entityStatus: RequestStatusType;
 };
+
+export const todolistsReducer = slice.reducer;
+export const todolistsActions = slice.actions;
+export const todolistsThunks = { fetchTodoLists };

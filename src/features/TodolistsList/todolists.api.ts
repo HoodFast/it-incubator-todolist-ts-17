@@ -1,20 +1,7 @@
-import axios from "axios";
 import { ArgUpdateThunkType } from "features/TodolistsList/tasks-reducer";
-import { TaskPriorities, TaskStatuses } from "common/enums";
-import { ResponseType } from "common/api/common.api";
+import { instance, ResponseType } from "common/api/common.api";
+import { AddTaskArgType, GetTasksResponse, TaskType, TodolistType } from "features/TodolistsList/todolists.types";
 
-const settings = {
-  withCredentials: true,
-  headers: {
-    "API-KEY": "1cdd9f77-c60e-4af5-b194-659e4ebd5d41",
-  },
-};
-export const instance = axios.create({
-  baseURL: "https://social-network.samuraijs.com/api/1.1/",
-  ...settings,
-});
-
-// api
 export const todolistsAPI = {
   getTodolists() {
     return instance.get<TodolistType[]>("todo-lists");
@@ -43,38 +30,3 @@ export const todolistsAPI = {
     return instance.put<ResponseType<TaskType>>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`, arg.domainModel);
   },
 };
-
-// types
-export type TodolistType = {
-  id: string;
-  title: string;
-  addedDate: string;
-  order: number;
-};
-
-export type TaskType = {
-  description: string;
-  title: string;
-  status: TaskStatuses;
-  priority: TaskPriorities;
-  startDate: string;
-  deadline: string;
-  id: string;
-  todoListId: string;
-  order: number;
-  addedDate: string;
-};
-export type UpdateTaskModelType = {
-  title: string;
-  description: string;
-  status: TaskStatuses;
-  priority: TaskPriorities;
-  startDate: string;
-  deadline: string;
-};
-type GetTasksResponse = {
-  error: string | null;
-  totalCount: number;
-  items: TaskType[];
-};
-export type AddTaskArgType = { todolistId: string; title: string };

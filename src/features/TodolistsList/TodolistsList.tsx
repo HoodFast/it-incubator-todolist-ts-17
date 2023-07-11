@@ -4,11 +4,11 @@ import { AppRootStateType } from "app/store";
 import {
   addTodolistTC,
   changeTodolistTitleTC,
-  fetchTodolistsTC,
   FilterValuesType,
   removeTodolistTC,
   TodolistDomainType,
   todolistsActions,
+  todolistsThunks,
 } from "./todolists-reducer";
 import { removeTaskTC, TasksStateType, tasksThunks } from "./tasks-reducer";
 
@@ -34,7 +34,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     if (demo || !isLoggedIn) {
       return;
     }
-    const thunk = fetchTodolistsTC();
+    const thunk = todolistsThunks.fetchTodoLists();
     dispatch(thunk);
   }, []);
 
