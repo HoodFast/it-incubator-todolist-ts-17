@@ -12,8 +12,8 @@ export const todolistsAPI = {
   deleteTodolist(id: string) {
     return instance.delete<ResponseType>(`todo-lists/${id}`);
   },
-  updateTodolist(id: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${id}`, { title: title });
+  updateTodolist(arg: { id: string; title: string }) {
+    return instance.put<ResponseType>(`todo-lists/${arg.id}`, { title: arg.title });
   },
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);

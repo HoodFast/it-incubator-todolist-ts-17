@@ -1,4 +1,10 @@
-import { FilterValuesType, TodolistDomainType, todolistsActions, todolistsReducer } from "./todolists-reducer";
+import {
+  FilterValuesType,
+  TodolistDomainType,
+  todolistsActions,
+  todolistsReducer,
+  todolistsThunks,
+} from "./todolists-reducer";
 import { v1 } from "uuid";
 import { RequestStatusType } from "app/app-reducer";
 import { TodolistType } from "features/TodolistsList/todolists.types";
@@ -17,9 +23,10 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(startState, todolistsActions.removeTodolist({ todoId: todolistId1 }));
-
-  expect(endState.length).toBe(1);
+  const action = todolistsThunks.removeTodolist.fulfilled(todolistId1, "requestId", todolistId1);
+  const endState = todolistsReducer(startState, action);
+  const keys = Object.keys(endState);
+  expect(keys.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
 });
 
@@ -41,7 +48,11 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist";
 
-  const action = todolistsActions.changeTodolistTitle({ todoId: todolistId2, title: newTodolistTitle });
+  const action = todolistsThunks.changeTodolistTitle.fulfilled(
+    { id: todolistId2, title: newTodolistTitle },
+    "requestId",
+    { id: todolistId2, title: newTodolistTitle }
+  );
 
   const endState = todolistsReducer(startState, action);
 
@@ -59,13 +70,15 @@ test("correct filter of todolist should be changed", () => {
   expect(endState[0].filter).toBe("all");
   expect(endState[1].filter).toBe(newFilter);
 });
+
 test("todolists should be added", () => {
-  const action = todolistsActions.setTodoLists({ todoLists: startState });
+  const action = todolistsThunks.fetchTodoLists.fulfilled({ todoLists: startState }, "requestId");
 
   const endState = todolistsReducer([], action);
 
   expect(endState.length).toBe(2);
 });
+
 test("correct entity status of todolist should be changed", () => {
   let newStatus: RequestStatusType = "loading";
 

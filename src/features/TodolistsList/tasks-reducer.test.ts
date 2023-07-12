@@ -1,6 +1,6 @@
 import { taskActions, tasksReducer, TasksStateType, tasksThunks } from "./tasks-reducer";
 
-import { todolistsActions } from "features/TodolistsList/todolists-reducer";
+import { TodolistDomainType, todolistsActions, todolistsThunks } from "features/TodolistsList/todolists-reducer";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 
 let startState: TasksStateType = {};
@@ -119,6 +119,7 @@ test("correct task should be added to correct array", () => {
   expect(endState["todolistId2"][0].title).toBe("juice");
   expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
+
 test("status of specified task should be changed", () => {
   const args = {
     taskId: "2",
@@ -168,29 +169,33 @@ test("new array should be added when new todolist is added", () => {
   expect(keys.length).toBe(3);
   expect(endState[newKey]).toEqual([]);
 });
-test("propertry with todolistId should be deleted", () => {
-  const action = todolistsActions.removeTodolist({ todoId: "todolistId2" });
 
+test("property with todolistId should be deleted", () => {
+  const action = todolistsThunks.removeTodolist.fulfilled("todolistId2", "requestId", "todolistId2");
   const endState = tasksReducer(startState, action);
-
   const keys = Object.keys(endState);
-
   expect(keys.length).toBe(1);
   expect(endState["todolistId2"]).not.toBeDefined();
 });
 
 test("empty arrays should be added when we set todolists", () => {
-  const action = todolistsActions.setTodoLists({
-    todoLists: [
-      { id: "1", title: "title 1", order: 0, addedDate: "" },
-      {
-        id: "2",
-        title: "title 2",
-        order: 0,
-        addedDate: "",
-      },
-    ],
-  });
+  const action = todolistsThunks.fetchTodoLists.fulfilled(
+    {
+      todoLists: [
+        { id: "1", title: "title 1", order: 0, addedDate: "", filter: "all", entityStatus: "idle" },
+        {
+          id: "2",
+          title: "title 2",
+          order: 0,
+          addedDate: "",
+          filter: "all",
+          entityStatus: "idle",
+        },
+      ],
+    },
+    "requestId"
+  );
+
   const endState = tasksReducer({}, action);
 
   const keys = Object.keys(endState);
@@ -199,6 +204,7 @@ test("empty arrays should be added when we set todolists", () => {
   expect(endState["1"]).toBeDefined();
   expect(endState["2"]).toBeDefined();
 });
+
 test("tasks should be added for todolist", () => {
   const action = tasksThunks.fetchTasks.fulfilled(
     {

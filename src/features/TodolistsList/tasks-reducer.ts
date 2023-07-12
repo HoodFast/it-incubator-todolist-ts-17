@@ -3,13 +3,13 @@ import { AppThunk } from "app/store";
 import { handleServerNetworkError } from "common/utils/handle-server-network-error";
 import { appActions } from "app/app-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { todolistsActions } from "features/TodolistsList/todolists-reducer";
+import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolists-reducer";
 import { Dispatch } from "redux";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 import { handleServerAppError } from "common/utils/handle-server-app-error";
 
 import { TaskPriorities, TaskStatuses } from "common/enums";
-import { AddTaskArgType, TaskType, UpdateTaskModelType } from "features/TodolistsList/todolists.types";
+import { AddTaskArgType, TaskType, TodolistType, UpdateTaskModelType } from "features/TodolistsList/todolists.types";
 import { todolistsAPI } from "features/TodolistsList/todolists.api";
 
 const slice = createSlice({
@@ -40,11 +40,11 @@ const slice = createSlice({
       .addCase(todolistsActions.addTodolist, (state, action) => {
         state[action.payload.todo.id] = [];
       })
-      .addCase(todolistsActions.removeTodolist, (state, action) => {
-        delete state[action.payload.todoId];
+      .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {
+        delete state[action.payload];
       })
-      .addCase(todolistsActions.setTodoLists, (state, action) => {
-        action.payload.todoLists.forEach((td) => {
+      .addCase(todolistsThunks.fetchTodoLists.fulfilled, (state, action) => {
+        action.payload.todoLists.forEach((td: TodolistType) => {
           state[td.id] = [];
         });
       });
@@ -52,7 +52,7 @@ const slice = createSlice({
 });
 
 // thunks
-const ResultCode = {
+export const ResultCode = {
   success: 0,
   error: 1,
   captcha: 10,
