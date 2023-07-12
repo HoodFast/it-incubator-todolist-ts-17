@@ -37,8 +37,8 @@ test("correct todolist should be added", () => {
     addedDate: "",
     order: 0,
   };
-
-  const endState = todolistsReducer(startState, todolistsActions.addTodolist({ todo: todolist }));
+  const action = todolistsThunks.addTodoList.fulfilled(todolist, "requestId", "New Todolist");
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(todolist.title);

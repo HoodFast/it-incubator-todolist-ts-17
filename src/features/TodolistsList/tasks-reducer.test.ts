@@ -86,7 +86,10 @@ beforeEach(() => {
 });
 
 test("correct task should be deleted from correct array", () => {
-  const action = taskActions.removeTask({ taskId: "2", todolistId: "todolistId2" });
+  const action = tasksThunks.removeTask.fulfilled({ taskId: "2", todolistId: "todolistId2" }, "requestId", {
+    taskId: "2",
+    todolistId: "todolistId2",
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -150,14 +153,14 @@ test("title of specified task should be changed", () => {
   expect(endState["todolistId2"][0].title).toBe("bread");
 });
 test("new array should be added when new todolist is added", () => {
-  const action = todolistsActions.addTodolist({
-    todo: {
-      id: "blabla",
-      title: "new todolist",
-      order: 0,
-      addedDate: "",
-    },
-  });
+  const todo = {
+    id: "blabla",
+    title: "new todolist",
+    order: 0,
+    addedDate: "",
+  };
+
+  const action = todolistsThunks.addTodoList.fulfilled(todo, "requestId", "new todolist");
   const endState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);

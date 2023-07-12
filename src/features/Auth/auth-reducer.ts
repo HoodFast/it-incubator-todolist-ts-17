@@ -38,6 +38,7 @@ export const loginTC =
         handleServerNetworkError(error, dispatch);
       });
   };
+
 export const logoutTC = (): AppThunk => (dispatch) => {
   dispatch(appActions.setAppStatus({ status: "loading" }));
   authAPI
