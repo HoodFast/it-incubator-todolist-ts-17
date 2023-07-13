@@ -18,7 +18,6 @@ const slice = createSlice({
       if (index !== -1) state[index].entityStatus = action.payload.entityStatus;
     },
     removeAll: (state) => {
-      alert("removeAll");
       return [];
     },
   },
