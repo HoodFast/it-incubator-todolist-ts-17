@@ -1,6 +1,7 @@
 import { ArgUpdateThunkType } from "features/TodolistsList/tasks-reducer";
-import { instance, ResponseType } from "common/api/common.api";
+import { instance } from "common/api/common.api";
 import { AddTaskArgType, GetTasksResponse, TaskType, TodolistType } from "features/TodolistsList/todolists.types";
+import { ResponseType } from "common/types/common.types";
 
 export const todolistsAPI = {
   getTodolists() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import { FormikHelpers, useFormik } from "formik";
 import { useSelector } from "react-redux";
 
 import { AppRootStateType } from "app/store";
@@ -7,10 +7,11 @@ import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
 import { authThunks } from "features/Auth/auth-reducer";
+import { LoginParamsType } from "features/Auth/auth.api";
+import { ResponseType } from "common/types";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-
   const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
 
   const formik = useFormik({
@@ -31,8 +32,14 @@ export const Login = () => {
       password: "",
       rememberMe: false,
     },
-    onSubmit: (values) => {
-      dispatch(authThunks.login(values));
+    onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
+      dispatch(authThunks.login(values))
+        .unwrap()
+        .catch((reason: ResponseType) => {
+          console.log(reason);
+          console.log(reason.fieldsErrors[0].field);
+          formikHelpers.setFieldError(reason.fieldsErrors[0].field, "error");
+        });
     },
   });
 

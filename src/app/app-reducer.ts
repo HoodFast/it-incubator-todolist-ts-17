@@ -1,7 +1,4 @@
-import { Dispatch } from "redux";
-import { authActions } from "features/Auth/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authAPI } from "features/Auth/auth.api";
 
 const initialState = {
   status: "idle" as RequestStatusType,
@@ -31,14 +28,3 @@ export const appReducer = slice.reducer;
 export const appActions = slice.actions;
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
-
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-  authAPI.me().then((res) => {
-    if (res.data.resultCode === 0) {
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    } else {
-    }
-
-    dispatch(appActions.setAppInitialized({ isInitialized: true }));
-  });
-};
