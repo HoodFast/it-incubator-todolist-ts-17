@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { authThunks } from "features/Auth/auth-reducer";
+import { bindActionCreators } from "redux";
 
 type PropsType = {
   demo?: boolean;
@@ -31,7 +32,8 @@ function App({ demo = false }: PropsType) {
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    dispatch(authThunks.initializeApp());
+    const callback = bindActionCreators(authThunks.initializeApp, dispatch);
+    callback();
   }, []);
 
   const logoutHandler = useCallback(() => {

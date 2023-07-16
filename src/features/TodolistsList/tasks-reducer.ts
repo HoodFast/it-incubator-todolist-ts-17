@@ -9,6 +9,7 @@ import { handleServerAppError } from "common/utils/handle-server-app-error";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 import { AddTaskArgType, TaskType, TodolistType, UpdateTaskModelType } from "features/TodolistsList/todolists.types";
 import { todolistsAPI } from "features/TodolistsList/todolists.api";
+import { thunkTryCatch } from "common/utils/thunk-try-catch";
 
 const slice = createSlice({
   name: "tasks",
@@ -99,21 +100,17 @@ export const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(
   "tasks/addTaskTC",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
+
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsAPI.createTask(arg);
       if (res.data.resultCode === ResultCode.success) {
         const task = res.data.data.item;
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { task };
       } else {
         handleServerAppError(res.data, dispatch);
         return rejectWithValue(null);
       }
-    } catch (e) {
-      handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
-    }
+    });
   }
 );
 
