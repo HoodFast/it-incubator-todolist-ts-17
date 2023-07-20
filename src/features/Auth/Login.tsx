@@ -9,20 +9,38 @@ import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, 
 import { authThunks } from "features/Auth/auth-reducer";
 import { LoginParamsType } from "features/Auth/auth.api";
 import { ResponseType } from "common/types";
+import { useActions } from "common/hooks";
+
+type FormikErrorType = Partial<Omit<LoginParamsType, "captcha">>;
 
 export const Login = () => {
+  const { login } = useActions(authThunks);
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
 
   const formik = useFormik({
-    validate: (values) => {},
+    validate: (values) => {
+      const errors: FormikErrorType = {};
+      if (!values.email) {
+        errors.email = "Email is missing";
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = "Invalid email addres";
+      }
+      if (!values.password) {
+        errors.password = "Required";
+      } else if (values.password.length < 3) {
+        errors.password = "Must be 3 characters or more";
+      }
+      return errors;
+    },
     initialValues: {
       email: "",
       password: "",
       rememberMe: false,
     },
     onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
-      dispatch(authThunks.login(values))
+      login(values)
+        // dispatch(authThunks.login(values))
         .unwrap()
         .catch((reason: ResponseType) => {
           if (reason.fieldsErrors) {

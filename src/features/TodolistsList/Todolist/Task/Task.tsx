@@ -4,19 +4,19 @@ import { Delete } from "@mui/icons-material";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { TaskStatuses } from "common/enums";
 import { TaskType } from "features/TodolistsList/todolists.types";
+import { useActions } from "common/hooks";
+import { tasksThunks } from "features/TodolistsList/tasks-reducer";
 
 type TaskPropsType = {
   task: TaskType;
   todolistId: string;
   changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void;
   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void;
-  removeTask: (taskId: string, todolistId: string) => void;
 };
 export const Task = React.memo((props: TaskPropsType) => {
-  const onClickHandler = useCallback(
-    () => props.removeTask(props.task.id, props.todolistId),
-    [props.task.id, props.todolistId]
-  );
+  const { removeTask: removeTS } = useActions(tasksThunks);
+
+  const onClickHandler = () => removeTS({ taskId: props.task.id, todolistId: props.todolistId });
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
