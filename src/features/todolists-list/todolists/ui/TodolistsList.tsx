@@ -14,7 +14,7 @@ import {
   todolistsThunks,
 } from "features/todolists-list/todolists/model/todolists-reducer";
 import { TasksStateType, tasksThunks } from "features/todolists-list/tasks/model/tasks-reducer";
-import { Todolist } from "features/todolists-list/Todolist/Todolist";
+import { Todolist } from "features/todolists-list/todolist/Todolist";
 
 type PropsType = {
   demo?: boolean;
@@ -53,15 +53,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   const addTask = useCallback(function (title: string, todolistId: string) {
     AddTS({ title, todolistId });
-  }, []);
-
-  const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-    updateTS({ taskId: id, domainModel: { status }, todolistId: todolistId });
-  }, []);
-
-  const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-    const thunk = tasksThunks.updateTask({ taskId: id, domainModel: { title: newTitle }, todolistId: todolistId });
-    dispatch(thunk);
   }, []);
 
   const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
@@ -104,9 +95,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
                   tasks={allTodolistTasks}
                   changeFilter={changeFilter}
                   addTask={addTask}
-                  changeTaskStatus={changeStatus}
                   removeTodolist={removeTodolist}
-                  changeTaskTitle={changeTaskTitle}
                   changeTodolistTitle={changeTodolistTitle}
                   demo={demo}
                 />
