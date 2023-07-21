@@ -1,21 +1,10 @@
-import { ArgUpdateThunkType } from "features/TodolistsList/tasks-reducer";
+import { ArgUpdateThunkType } from "features/todolists-list/tasks/model/tasks-reducer";
 import { instance } from "common/api/common.api";
-import { AddTaskArgType, GetTasksResponse, TaskType, TodolistType } from "features/TodolistsList/todolists.types";
+import { AddTaskArgType } from "features/todolists-list/todolists/api/todolists.types";
 import { ResponseType } from "common/types/common.types";
+import { GetTasksResponse, TaskType } from "features/todolists-list/tasks/api/task.types";
 
-export const todolistsAPI = {
-  getTodolists() {
-    return instance.get<TodolistType[]>("todo-lists");
-  },
-  createTodolist(title: string) {
-    return instance.post<ResponseType<{ item: TodolistType }>>("todo-lists", { title: title });
-  },
-  deleteTodolist(id: string) {
-    return instance.delete<ResponseType>(`todo-lists/${id}`);
-  },
-  updateTodolist(arg: { id: string; title: string }) {
-    return instance.put<ResponseType>(`todo-lists/${arg.id}`, { title: arg.title });
-  },
+export const taskAPI = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },

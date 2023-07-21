@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from "react";
 import "./App.css";
-import { TodolistsList } from "features/TodolistsList/TodolistsList";
+import { TodolistsList } from "features/todolists-list/todolists/ui/TodolistsList";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "./store";
 import { RequestStatusType } from "./app-reducer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "features/Auth/Login";
+import { Login } from "features/auth/Login";
 import {
   AppBar,
   Button,
@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { authThunks } from "features/Auth/auth-reducer";
+import { authThunks } from "features/auth/auth-reducer";
 import { useActions } from "common/hooks";
 
 type PropsType = {

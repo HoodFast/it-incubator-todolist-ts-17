@@ -3,9 +3,9 @@ import { Checkbox, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { TaskStatuses } from "common/enums";
-import { TaskType } from "features/TodolistsList/todolists.types";
 import { useActions } from "common/hooks";
-import { tasksThunks } from "features/TodolistsList/tasks-reducer";
+import { tasksThunks } from "features/todolists-list/tasks/model/tasks-reducer";
+import { TaskType } from "features/todolists-list/tasks/api/task.types";
 
 type TaskPropsType = {
   task: TaskType;

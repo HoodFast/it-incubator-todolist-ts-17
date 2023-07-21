@@ -1,8 +1,8 @@
 import { appActions, RequestStatusType } from "app/app-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
-import { todolistsAPI } from "features/TodolistsList/todolists.api";
-import { TodolistType } from "features/TodolistsList/todolists.types";
+import { todolistsAPI } from "features/todolists-list/todolists/api/todolists.api";
+import { TodolistType } from "features/todolists-list/todolists/api/todolists.types";
 import { ResultCode } from "common/api/resultCodes";
 import { thunkTryCatch } from "common/utils/thunk-try-catch";
 
@@ -114,8 +114,6 @@ export const changeTodolistTitle = createAppAsyncThunk<{ id: string; title: stri
     }
   }
 );
-
-// types
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {

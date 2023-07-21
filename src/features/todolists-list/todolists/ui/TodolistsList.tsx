@@ -1,15 +1,20 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "app/store";
-import { FilterValuesType, TodolistDomainType, todolistsActions, todolistsThunks } from "./todolists-reducer";
-import { TasksStateType, tasksThunks } from "./tasks-reducer";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
-import { Todolist } from "./Todolist/Todolist";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { TaskStatuses } from "common/enums";
 import { useActions } from "common/hooks";
+import {
+  FilterValuesType,
+  TodolistDomainType,
+  todolistsActions,
+  todolistsThunks,
+} from "features/todolists-list/todolists/model/todolists-reducer";
+import { TasksStateType, tasksThunks } from "features/todolists-list/tasks/model/tasks-reducer";
+import { Todolist } from "features/todolists-list/Todolist/Todolist";
 
 type PropsType = {
   demo?: boolean;
@@ -27,11 +32,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     changeTodolistTitle: changeTLTitle,
   } = useActions(todolistsThunks);
 
-  // const { changeTodolistFilter } = useActions(todolistsActions);
-  // const { removeTask: removeTS, addTask: AddTS, updateTask: updateTS } = useActions(tasksThunks);
-
   const {
-    removeTask: removeTS,
     addTask: AddTS,
     updateTask: updateTS,
     changeTodolistFilter,
@@ -48,10 +49,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     return function cleanup() {
       dispatch(todolistsActions.removeAll());
     };
-  }, []);
-
-  const removeTask = useCallback(function (id: string, todolistId: string) {
-    removeTS({ taskId: id, todolistId });
   }, []);
 
   const addTask = useCallback(function (title: string, todolistId: string) {

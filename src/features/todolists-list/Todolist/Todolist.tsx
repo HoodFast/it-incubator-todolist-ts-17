@@ -2,14 +2,13 @@ import React, { useCallback, useEffect } from "react";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { Task } from "./Task/Task";
-
-import { FilterValuesType, TodolistDomainType } from "../todolists-reducer";
+import { FilterValuesType, TodolistDomainType } from "features/todolists-list/todolists/model/todolists-reducer";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { tasksThunks } from "features/TodolistsList/tasks-reducer";
+import { tasksThunks } from "features/todolists-list/tasks/model/tasks-reducer";
 import { TaskStatuses } from "common/enums";
-import { TaskType } from "features/TodolistsList/todolists.types";
+import { TaskType } from "features/todolists-list/tasks/api/task.types";
 
 type PropsType = {
   todolist: TodolistDomainType;
@@ -72,7 +71,6 @@ export const Todolist = React.memo(function ({ demo = false, ...props }: PropsTy
   if (props.todolist.filter === "completed") {
     tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.Completed);
   }
-
   return (
     <div>
       <h3>

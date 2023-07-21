@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { appActions } from "app/app-reducer";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
-import { authAPI, LoginParamsType } from "features/Auth/auth.api";
+import { authAPI, LoginParamsType } from "features/auth/auth.api";
 import { ResultCode } from "common/api/resultCodes";
 
 const slice = createSlice({

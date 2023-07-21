@@ -6,8 +6,8 @@ import { AppRootStateType } from "app/store";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
-import { authThunks } from "features/Auth/auth-reducer";
-import { LoginParamsType } from "features/Auth/auth.api";
+import { authThunks } from "features/auth/auth-reducer";
+import { LoginParamsType } from "features/auth/auth.api";
 import { ResponseType } from "common/types";
 import { useActions } from "common/hooks";
 
