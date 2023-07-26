@@ -4,10 +4,10 @@ import {
   todolistsActions,
   todolistsReducer,
   todolistsThunks,
-} from "features/todolists-list/todolists/model/todolists-reducer";
+} from "features/todolists-list/model/todolists-reducer";
 import { v1 } from "uuid";
 import { RequestStatusType } from "app/app-reducer";
-import { TodolistType } from "features/todolists-list/todolists/api/todolists.types";
+import { TodolistType } from "features/todolists-list/api/todolists.types";
 
 let todolistId1: string;
 let todolistId2: string;

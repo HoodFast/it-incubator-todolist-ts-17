@@ -1,13 +1,17 @@
 import { handleServerNetworkError } from "common/utils/handle-server-network-error";
 import { appActions } from "app/app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
-import { todolistsActions, todolistsThunks } from "features/todolists-list/todolists/model/todolists-reducer";
+import { todolistsActions, todolistsThunks } from "features/todolists-list/model/todolists-reducer";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 import { handleServerAppError } from "common/utils/handle-server-app-error";
-import { AddTaskArgType, TodolistType } from "features/todolists-list/todolists/api/todolists.types";
+import { AddTaskArgType, TodolistType } from "features/todolists-list/api/todolists.types";
 import { thunkTryCatch } from "common/utils/thunk-try-catch";
-import { taskAPI } from "features/todolists-list/tasks/api/tasks.api";
-import { TaskType, UpdateDomainTaskModelType, UpdateTaskModelType } from "features/todolists-list/tasks/api/task.types";
+import { taskAPI } from "features/todolists-list/todolist/tasks/api/tasks.api";
+import {
+  TaskType,
+  UpdateDomainTaskModelType,
+  UpdateTaskModelType,
+} from "features/todolists-list/todolist/tasks/api/task.types";
 
 const slice = createSlice({
   name: "tasks",
