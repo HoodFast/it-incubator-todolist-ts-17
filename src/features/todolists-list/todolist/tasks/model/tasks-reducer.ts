@@ -63,7 +63,6 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
   "tasks/fetchTasksTC",
 
   async (todolistId, thunkAPI) => {
-    debugger;
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
       dispatch(appActions.setAppStatus({ status: "loading" }));

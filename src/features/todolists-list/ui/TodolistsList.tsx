@@ -9,6 +9,7 @@ import { useActions } from "common/hooks";
 import { TodolistDomainType, todolistsActions, todolistsThunks } from "features/todolists-list/model/todolists-reducer";
 import { TasksStateType } from "features/todolists-list/todolist/tasks/model/tasks-reducer";
 import { Todolist } from "features/todolists-list/todolist/ui/Todolist";
+import s from "./TodolistsList.module.css";
 
 type PropsType = {
   demo?: boolean;
@@ -47,7 +48,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   return (
     <>
-      <Grid container style={{ padding: "20px" }}>
+      <Grid container className={s.grid}>
         <AddItemForm addItem={addTodolist} />
       </Grid>
       <Grid container spacing={3}>
@@ -56,7 +57,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
           return (
             <Grid item key={tl.id}>
-              <Paper style={{ padding: "10px" }}>
+              <Paper className={s.paper}>
                 <Todolist todolist={tl} tasks={allTodolistTasks} demo={demo} />
               </Paper>
             </Grid>

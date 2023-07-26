@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useCallback, useEffect } from "react";
+import React, { FC, useCallback, useEffect } from "react";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { Task } from "features/todolists-list/todolist/tasks/ui/task";
@@ -49,16 +49,16 @@ export const Todolist: FC<PropsType> = React.memo(function ({ demo = false, todo
     removeTodolist(todolist.id);
   };
 
-  const changeToDoTitle = (title: string) => {
-    changeTodolistTitle({ id: todolist.id, title });
-  };
-
-  const onAllClickHandler = useCallback(() => changeFilter("all", todolist.id), [todolist.id, changeFilter]);
-  const onActiveClickHandler = useCallback(() => changeFilter("active", todolist.id), [todolist.id, changeFilter]);
-  const onCompletedClickHandler = useCallback(
-    () => changeFilter("completed", todolist.id),
-    [todolist.id, changeFilter]
+  const changeToDoTitle = useCallback(
+    (title: string) => {
+      changeTodolistTitle({ id: todolist.id, title });
+    },
+    [todolist.title]
   );
+
+  const onAllClickHandler = useCallback(() => changeFilter("all", todolist.id), [todolist.id]);
+  const onActiveClickHandler = useCallback(() => changeFilter("active", todolist.id), [todolist.id]);
+  const onCompletedClickHandler = useCallback(() => changeFilter("completed", todolist.id), [todolist.id]);
 
   let tasksForTodolist = props.tasks;
 
@@ -68,6 +68,7 @@ export const Todolist: FC<PropsType> = React.memo(function ({ demo = false, todo
   if (todolist.filter === "completed") {
     tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.Completed);
   }
+
   return (
     <div>
       <h3>
