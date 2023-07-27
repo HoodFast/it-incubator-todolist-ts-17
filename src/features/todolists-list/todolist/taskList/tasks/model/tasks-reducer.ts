@@ -6,12 +6,12 @@ import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 import { handleServerAppError } from "common/utils/handle-server-app-error";
 import { AddTaskArgType, TodolistType } from "features/todolists-list/api/todolists.types";
 import { thunkTryCatch } from "common/utils/thunk-try-catch";
-import { taskAPI } from "features/todolists-list/todolist/tasks/api/tasks.api";
+import { taskAPI } from "features/todolists-list/todolist/taskList/tasks/api/tasks.api";
 import {
   TaskType,
   UpdateDomainTaskModelType,
   UpdateTaskModelType,
-} from "features/todolists-list/todolist/tasks/api/task.types";
+} from "features/todolists-list/todolist/taskList/tasks/api/task.types";
 
 const slice = createSlice({
   name: "tasks",

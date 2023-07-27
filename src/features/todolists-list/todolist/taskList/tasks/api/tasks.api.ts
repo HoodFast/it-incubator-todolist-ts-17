@@ -1,8 +1,8 @@
-import { ArgUpdateThunkType } from "features/todolists-list/todolist/tasks/model/tasks-reducer";
+import { ArgUpdateThunkType } from "features/todolists-list/todolist/taskList/tasks/model/tasks-reducer";
 import { instance } from "common/api/common.api";
 import { AddTaskArgType } from "features/todolists-list/api/todolists.types";
 import { ResponseType } from "common/types/common.types";
-import { GetTasksResponse, TaskType } from "features/todolists-list/todolist/tasks/api/task.types";
+import { GetTasksResponse, TaskType } from "features/todolists-list/todolist/taskList/tasks/api/task.types";
 
 export const taskAPI = {
   getTasks(todolistId: string) {

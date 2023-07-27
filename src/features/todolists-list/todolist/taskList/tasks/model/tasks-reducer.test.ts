@@ -1,4 +1,8 @@
-import { tasksReducer, TasksStateType, tasksThunks } from "features/todolists-list/todolist/tasks/model/tasks-reducer";
+import {
+  tasksReducer,
+  TasksStateType,
+  tasksThunks,
+} from "features/todolists-list/todolist/taskList/tasks/model/tasks-reducer";
 import { todolistsThunks } from "features/todolists-list/model/todolists-reducer";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 
