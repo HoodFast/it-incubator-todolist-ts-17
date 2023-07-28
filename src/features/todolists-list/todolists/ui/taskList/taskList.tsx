@@ -1,8 +1,8 @@
-import { Task } from "features/todolists-list/todolist/taskList/tasks/ui/task";
+import { Task } from "features/todolists-list/todolists/ui/taskList/tasks/task";
 import React, { FC } from "react";
 import { TaskStatuses } from "common/enums";
-import { FilterValuesType } from "features/todolists-list/model/todolists-reducer";
-import { TaskType } from "features/todolists-list/todolist/taskList/tasks/api/task.types";
+import { FilterValuesType } from "features/todolists-list/todolists/model/todolists-reducer";
+import { TaskType } from "features/todolists-list/tasks/api/task.types";
 
 type PropsType = {
   tasks: Array<TaskType>;

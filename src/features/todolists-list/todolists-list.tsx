@@ -6,10 +6,14 @@ import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { useActions } from "common/hooks";
-import { TodolistDomainType, todolistsActions, todolistsThunks } from "features/todolists-list/model/todolists-reducer";
-import { TasksStateType } from "features/todolists-list/todolist/taskList/tasks/model/tasks-reducer";
-import { Todolist } from "features/todolists-list/todolist/ui/Todolist";
-import s from "./TodolistsList.module.css";
+import {
+  TodolistDomainType,
+  todolistsActions,
+  todolistsThunks,
+} from "features/todolists-list/todolists/model/todolists-reducer";
+import { TasksStateType } from "features/todolists-list/tasks/model/tasks-reducer";
+import { Todolist } from "features/todolists-list/todolists/ui/Todolist";
+import s from "features/todolists-list/TodolistsList.module.css";
 
 type PropsType = {
   demo?: boolean;
@@ -37,7 +41,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   const addTodolist = useCallback(
     (title: string) => {
-      addTodoList(title);
+      return addTodoList(title).unwrap();
     },
     [dispatch]
   );

@@ -4,9 +4,9 @@ import { Delete } from "@mui/icons-material";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { TaskStatuses } from "common/enums";
 import { useActions } from "common/hooks";
-import { tasksThunks } from "features/todolists-list/todolist/taskList/tasks/model/tasks-reducer";
-import { TaskType } from "features/todolists-list/todolist/taskList/tasks/api/task.types";
-import s from "features/todolists-list/todolist/taskList/tasks/ui/task.module.css";
+import { tasksThunks } from "features/todolists-list/tasks/model/tasks-reducer";
+import { TaskType } from "features/todolists-list/tasks/api/task.types";
+import s from "features/todolists-list/todolists/ui/taskList/tasks/task.module.css";
 
 type Props = {
   task: TaskType;

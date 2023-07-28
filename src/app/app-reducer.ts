@@ -21,6 +21,34 @@ const slice = createSlice({
       state.isInitialized = action.payload.isInitialized;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending");
+        },
+        (state) => {
+          state.status = "loading";
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/fulfilled");
+        },
+        (state) => {
+          state.status = "succeeded";
+        }
+      )
+      .addMatcher(
+        (action) => {
+          console.log(action.type);
+          return action.type.endsWith("/rejected");
+        },
+        (state) => {
+          state.status = "failed";
+        }
+      );
+  },
 });
 
 export const appReducer = slice.reducer;

@@ -5,9 +5,9 @@ import {
   FilterValuesType,
   TodolistDomainType,
   todolistsActions,
-} from "features/todolists-list/model/todolists-reducer";
+} from "features/todolists-list/todolists/model/todolists-reducer";
 import { useActions } from "common/hooks";
-import s from "components/filterTasksButtons/filterTasksButtons.module.css";
+import s from "features/todolists-list/todolists/ui/filterTasksButtons/filterTasksButtons.module.css";
 
 type PropsType = {
   todolist: TodolistDomainType;

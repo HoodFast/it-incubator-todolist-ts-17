@@ -21,7 +21,6 @@ export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
-  console.log("render");
   return editMode ? (
     <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
   ) : (
