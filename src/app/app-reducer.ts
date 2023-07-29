@@ -41,11 +41,17 @@ const slice = createSlice({
       )
       .addMatcher(
         (action) => {
-          console.log(action.type);
           return action.type.endsWith("/rejected");
         },
-        (state) => {
+        (state, action) => {
           state.status = "failed";
+          if (action.type.includes("addTodo")) return;
+
+          if (action.payload) {
+            state.error = action.payload.messages[0] ? action.payload.messages[0] : "some error";
+          } else {
+            state.error = action.error.message ? action.error.message : "some error occurred";
+          }
         }
       );
   },

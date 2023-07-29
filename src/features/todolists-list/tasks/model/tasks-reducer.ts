@@ -84,7 +84,7 @@ export const removeTask = createAppAsyncThunk<
       // dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return arg;
     } else {
-      handleServerAppError(res.data, dispatch);
+      // handleServerAppError(res.data, dispatch);
       return rejectWithValue(null);
     }
   } catch (e) {
@@ -97,17 +97,14 @@ export const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(
   "tasks/addTaskTC",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await taskAPI.createTask(arg);
-      if (res.data.resultCode === ResultCode.success) {
-        const task = res.data.data.item;
-        return { task };
-      } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(res.data);
-      }
-    });
+    const res = await taskAPI.createTask(arg);
+    if (res.data.resultCode === ResultCode.success) {
+      const task = res.data.data.item;
+      return { task };
+    } else {
+      // handleServerAppError(res.data, dispatch);
+      return rejectWithValue({ data: res.data, showGlobalError: true });
+    }
   }
 );
 
@@ -115,39 +112,31 @@ const updateTask = createAppAsyncThunk<ArgUpdateThunkType, ArgUpdateThunkType>(
   "tasks/updateTaskTC",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const state = getState();
+    const task = state.tasks[arg.todolistId].find((t) => t.id === arg.taskId);
+    if (!task) {
+      dispatch(appActions.setAppError({ error: "task not found in the state" }));
+      return rejectWithValue(null);
+    }
+    const apiModel: UpdateTaskModelType = {
+      deadline: task.deadline,
+      description: task.description,
+      priority: task.priority,
+      startDate: task.startDate,
+      title: task.title,
+      status: task.status,
+      ...arg.domainModel,
+    };
 
-    try {
-      const state = getState();
-      const task = state.tasks[arg.todolistId].find((t) => t.id === arg.taskId);
-      if (!task) {
-        dispatch(appActions.setAppError({ error: "task not found in the state" }));
-        return rejectWithValue(null);
-      }
-      const apiModel: UpdateTaskModelType = {
-        deadline: task.deadline,
-        description: task.description,
-        priority: task.priority,
-        startDate: task.startDate,
-        title: task.title,
-        status: task.status,
-        ...arg.domainModel,
-      };
-
-      const res = await taskAPI.updateTask({
-        taskId: arg.taskId,
-        todolistId: arg.todolistId,
-        domainModel: apiModel,
-      });
-      if (res.data.resultCode === ResultCode.success) {
-        // dispatch(appActions.setAppStatus({ status: "succeeded" }));
-
-        return arg;
-      } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(null);
-      }
-    } catch (e) {
-      handleServerNetworkError(e, dispatch);
+    const res = await taskAPI.updateTask({
+      taskId: arg.taskId,
+      todolistId: arg.todolistId,
+      domainModel: apiModel,
+    });
+    if (res.data.resultCode === ResultCode.success) {
+      return arg;
+    } else {
+      // handleServerAppError(res.data, dispatch);
       return rejectWithValue(null);
     }
   }

@@ -15,7 +15,5 @@ export const thunkTryCatch = async (
   } catch (e) {
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
-  } finally {
-    // dispatch(appActions.setAppStatus({ status: "idle" }));
   }
 };

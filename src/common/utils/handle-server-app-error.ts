@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { appActions } from "app/app-reducer";
 import { ResponseType } from "common/types/common.types";
+import { RejectValueType } from "common/utils/create-app-async-thunk";
 
 /**
  * Обрабатывает ошибку, полученную от сервера.
@@ -12,9 +13,11 @@ import { ResponseType } from "common/types/common.types";
  * @returns {void} - ничего не возвращает
  */
 
-export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: Dispatch, showError = true) => {
-  if (showError) {
-    dispatch(appActions.setAppError({ error: data.messages.length ? data.messages[0] : "Some error occurred" }));
-  }
-  dispatch(appActions.setAppStatus({ status: "failed" }));
+export const handleServerAppError = <D>(data: RejectValueType<D>, dispatch: Dispatch, showError = true) => {
+  // if (showError) {
+  //   dispatch(
+  //     appActions.setAppError({ error: data.data.messages.length ? data.data.messages[0] : "Some error occurred" })
+  //   );
+  // }
+  // dispatch(appActions.setAppStatus({ status: "failed" }));
 };

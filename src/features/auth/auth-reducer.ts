@@ -31,36 +31,26 @@ const slice = createSlice({
 const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>("auth/login", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    const res = await authAPI.login(arg);
-    if (res.data.resultCode === ResultCode.success) {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return { isLoggedIn: true };
-    } else {
-      const isShowAppError = !res.data.fieldsErrors.length;
-      handleServerAppError(res.data, dispatch, isShowAppError);
-      return rejectWithValue(res.data);
-    }
-  } catch (e) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
+  const res = await authAPI.login(arg);
+  if (res.data.resultCode === ResultCode.success) {
+    dispatch(appActions.setAppStatus({ status: "succeeded" }));
+    return { isLoggedIn: true };
+  } else {
+    // const isShowAppError = !res.data.fieldsErrors.length;
+    // handleServerAppError(res.data, dispatch, isShowAppError);
+    return rejectWithValue({ data: res.data, showGlobalError: true });
   }
 });
 
 const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>("auth/logout", async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    const res = await authAPI.logout();
-    if (res.data.resultCode === ResultCode.success) {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return { isLoggedIn: false };
-    } else {
-      handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
-    }
-  } catch (e) {
-    handleServerNetworkError(e, dispatch);
+  const res = await authAPI.logout();
+  if (res.data.resultCode === ResultCode.success) {
+    dispatch(appActions.setAppStatus({ status: "succeeded" }));
+    return { isLoggedIn: false };
+  } else {
+    // handleServerAppError(res.data, dispatch);
     return rejectWithValue(null);
   }
 });
