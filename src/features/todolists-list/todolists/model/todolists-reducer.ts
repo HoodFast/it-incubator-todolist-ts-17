@@ -79,7 +79,6 @@ export const changeTodolistTitle = createAppAsyncThunk<{ id: string; title: stri
     if (res.data.resultCode === ResultCode.success) {
       return { id: arg.id, title: arg.title };
     } else {
-      // handleServerAppError(res.data, dispatch);
       return rejectWithValue(null);
     }
   }

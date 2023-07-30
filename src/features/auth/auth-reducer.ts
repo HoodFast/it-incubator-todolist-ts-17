@@ -36,9 +36,9 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>("aut
     dispatch(appActions.setAppStatus({ status: "succeeded" }));
     return { isLoggedIn: true };
   } else {
-    // const isShowAppError = !res.data.fieldsErrors.length;
+    const isShowAppError = !res.data.fieldsErrors.length;
     // handleServerAppError(res.data, dispatch, isShowAppError);
-    return rejectWithValue({ data: res.data, showGlobalError: true });
+    return rejectWithValue({ data: res.data, showGlobalError: isShowAppError });
   }
 });
 
