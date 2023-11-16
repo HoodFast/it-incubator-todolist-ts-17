@@ -10,13 +10,14 @@ import { authThunks } from "features/auth/auth-reducer";
 import { LoginParamsType } from "features/auth/auth.api";
 import { ResponseType } from "common/types";
 import { useActions } from "common/hooks";
+import { selectIsLoggedIn } from "features/auth/selectors";
 
 type FormikErrorType = Partial<Omit<LoginParamsType, "captcha">>;
 
 export const Login = () => {
   const { login } = useActions(authThunks);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const formik = useFormik({
     validate: (values) => {
