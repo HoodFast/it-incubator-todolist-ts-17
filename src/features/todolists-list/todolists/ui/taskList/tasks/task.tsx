@@ -13,9 +13,9 @@ type Props = {
   todolistId: string;
 };
 export const Task: FC<Props> = memo(({ task, todolistId }) => {
-  const { removeTask: removeTS, updateTask } = useActions(tasksThunks);
+  const { removeTask, updateTask } = useActions(tasksThunks);
 
-  const removeTaskHandler = () => removeTS({ taskId: task.id, todolistId });
+  const removeTaskHandler = () => removeTask({ taskId: task.id, todolistId });
 
   const ChangeCheckedHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let status: TaskStatuses = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New;

@@ -3,7 +3,6 @@ import "./App.css";
 import { TodolistsList } from "features/todolists-list/todolists-list";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { useSelector } from "react-redux";
-import { AppRootStateType } from "./store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import {
@@ -20,17 +19,18 @@ import { Menu } from "@mui/icons-material";
 import { Login } from "features/auth/Login";
 import { authThunks } from "features/auth/auth-reducer";
 import { useActions } from "common/hooks";
-import { selectIsInitialized, selectStatus } from "./selectors";
-import { selectIsLoggedIn } from "features/auth/selectors";
+
+import { authSelectors } from "features/auth/";
+import { appSelectors } from "app/index";
 
 type PropsType = {
   demo?: boolean;
 };
 
 function App({ demo = false }: PropsType) {
-  const status = useSelector(selectStatus);
-  const isInitialized = useSelector(selectIsInitialized);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const status = useSelector(appSelectors.selectStatus);
+  const isInitialized = useSelector(appSelectors.selectIsInitialized);
+  const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
   const { initializeApp, logout } = useActions(authThunks);
 
   useEffect(() => {
