@@ -8,7 +8,7 @@ import {
   removeTodolist,
 } from "features/todolists-list/todolists/model/todolists-actions";
 
-const slice = createSlice({
+export const slice = createSlice({
   name: "todoLists",
   initialState: [] as TodolistDomainType[],
   reducers: {
